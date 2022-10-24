@@ -16,7 +16,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-basic",
+            "outputPath": "dist/star-energy",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-basic:build"
+            "browserTarget": "star-energy:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-basic:build:production"
+              "browserTarget": "star-energy:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-basic:build"
+            "browserTarget": "star-energy:build"
           }
         },
         "test": {
@@ -92,19 +92,19 @@
           }
         },
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@angular-devkit/star-energy:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-basic:serve"
+            "devServerTarget": "star-energy:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-basic:serve:production"
+              "devServerTarget": "star-energy:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "angular-basic"
+  "defaultProject": "star-energy"
 }
