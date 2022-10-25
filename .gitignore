@@ -32,7 +32,6 @@ speed-measure-plugin*.json
 .history/*
 
 # misc
-/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -45,9 +44,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-/test-results/
-/playwright-report/
-/playwright/.cache/
-/test-results/
-/playwright-report/
-/playwright/.cache/
+package-lock.json
+.env
+
+icon.png
+.angular

@@ -6,12 +6,22 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-basic": {
+    "star-energy": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "fr": "src/locale/messages.fr.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -21,17 +31,48 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "aot": true,
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src/assets/favicons/",
+                "output": "/"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                "glob": "sitemap.xml",
+                "input": "seo/",
+                "output": "/"
+              },
+              {
+                "glob": "robots.txt",
+                "input": "seo/",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "src/styles/styles.scss"
+            ],
             "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json",
+            "localize": true
           },
           "configurations": {
+            "fr": {
+              "localize": [
+                "fr"
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -41,7 +82,7 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -50,17 +91,46 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumError": "7mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "100kb",
+                  "maximumError": "200kb"
+                }
+              ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
+            },
+            "local": {
+              "optimization": false,
+              "sourceMap": true,
+              "buildOptimizer": false,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "localize": false
+            },
+            "local-to-staging-api": {
+              "optimization": false,
+              "sourceMap": true,
+              "buildOptimizer": false,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "localize": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local-to-staging-api.ts"
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -68,8 +138,20 @@
             "browserTarget": "star-energy:build"
           },
           "configurations": {
+            "fr": {
+              "browserTarget": "star-energy:build:fr"
+            },
             "production": {
               "browserTarget": "star-energy:build:production"
+            },
+            "staging": {
+              "browserTarget": "star-energy:build:staging"
+            },
+            "local": {
+              "browserTarget": "star-energy:build:local"
+            },
+            "local-to-staging-api": {
+              "browserTarget": "star-energy:build:local-to-staging-api"
             }
           }
         },
@@ -86,13 +168,54 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src/assets/favicons/",
+                "output": "/"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                "glob": "sitemap.xml",
+                "input": "seo/",
+                "output": "/"
+              },
+              {
+                "glob": "robots.txt",
+                "input": "seo/",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "src/styles/styles.scss"
+            ],
             "scripts": []
           }
         },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
         "e2e": {
-          "builder": "@angular-devkit/star-energy:protractor",
+          "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
             "devServerTarget": "star-energy:serve"
